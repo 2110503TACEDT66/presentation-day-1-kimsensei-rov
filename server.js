@@ -6,7 +6,7 @@ const connectDB = require('./config/db');
 //Route file
 /*const hospitals = require('./routes/hospitals');
 const auth = require('./routes/auth');
-const appointments = require('./routes/appointments');*/
+const bookings = require('./routes/bookings');*/
 
 //Load env vars
 dotenv.config({path:'./config/config.env'});
@@ -24,7 +24,7 @@ app.use(cookieParser());
 //Body parser
 //app.use('/api/v1/hospitals', hospitals);
 //app.use('/api/v1/auth', auth);
-//app.use('/api/v1/appointments',appointments);
+//app.use('/api/v1/bookings',bookings);
 
 const PORT=process.env.PORT || 5000;
 

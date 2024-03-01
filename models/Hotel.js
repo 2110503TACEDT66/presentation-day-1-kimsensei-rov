@@ -19,16 +19,16 @@ const HotelSchema = new mongoose.Schema({
     }
 });
 
-// Cascade delete appointments when a hospital is deleted
+// Cascade delete bookings when a hotel is deleted
 HotelSchema.pre('remove', async function(next) {
-    console.log(`Appointments being removed from hotel ${this._id}`);
-    await this.model('Appointment').deleteMany({ hotel: this._id });
+    console.log(`Bookings being removed from hotel ${this._id}`);
+    await this.model('Booking').deleteMany({ hotel: this._id });
     next();
 });
 
 // Reverse populate with virtuals
-HotelSchema.virtual('appointments', {
-    ref: 'Appointment',
+HotelSchema.virtual('bookings', {
+    ref: 'Booking',
     localField: '_id',
     foreignField: 'hotel',
     justOne: false
