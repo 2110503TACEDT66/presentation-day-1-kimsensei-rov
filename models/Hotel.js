@@ -1,4 +1,4 @@
-const mongose = require('mongoose');
+const mongoose = require('mongoose');
 
 const HotelSchema = new mongoose.Schema({
     name: {
