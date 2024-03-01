@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 
 //Route file
-/*const hospitals = require('./routes/hospitals');
+/*const hotels = require('./routes/hotels');
 const auth = require('./routes/auth');
 const bookings = require('./routes/bookings');*/
 
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 //Body parser
-//app.use('/api/v1/hospitals', hospitals);
+//app.use('/api/v1/hotels', hotels);
 //app.use('/api/v1/auth', auth);
 //app.use('/api/v1/bookings',bookings);
 
