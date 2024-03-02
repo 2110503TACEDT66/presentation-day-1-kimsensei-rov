@@ -61,4 +61,19 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
+// Cascade delete bookings when a user is deleted
+UserSchema.pre('remove', async function (next) {
+    console.log(`Bookings being removed from user ${this._id}`);
+    await this.model('Booking').deleteMany({ user: this._id });
+    next();
+});
+
+// Reverse populate with virtuals
+UserSchema.virtual('bookings', {
+    ref: 'Booking',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: false
+});
+
 module.exports = mongoose.model('User', UserSchema);

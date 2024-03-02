@@ -59,6 +59,9 @@ const sendTokenResponse=(user,statusCode,res)=>{
 }
 
 exports.getMe=async(req,res,next)=>{
+    if (!req.user) {
+        return res.status(401).json({ success: false, msg: 'Not authorize to access this route' });
+    }
     const user=await User.findById(req.user.id);
     res.status(200).json({
         success:true,
@@ -75,4 +78,21 @@ exports.logout=async(req,res,next)=>{
         success:true,
         data:{}
     });
+};
+
+exports.deleteUser=async(req,res,next)=>{
+    try{
+        const user = await User.findById(req.params.id);
+        if(user.id!==req.user.id && req.user.role !== 'admin'){
+            return res.status(401).json({success:false,message:`User ${req.user.id} is not authorized to delete this User`});
+        }
+        res.cookie('token', 'none', {
+            expires: new Date(Date.now() + 10 * 1000),
+            httpOnly: true
+        });
+        await user.deleteOne();
+        res.status(200).json({success:true,data: user});
+    }catch(err){
+        res.status(400).json({success:false});
+    }
 };
