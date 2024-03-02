@@ -62,9 +62,9 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 // Cascade delete bookings when a user is deleted
-UserSchema.pre('remove', async function (next) {
+UserSchema.pre('deleteOne',{document:true,query:false},async function(next){
     console.log(`Bookings being removed from user ${this._id}`);
-    await this.model('Booking').deleteMany({ user: this._id });
+    await this.model('Booking').deleteMany({user:this._id});
     next();
 });
 
