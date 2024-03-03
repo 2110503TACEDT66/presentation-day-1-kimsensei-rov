@@ -1,0 +1,28 @@
+@startuml Hotel Booking Use Case Diagram
+left to right direction
+
+rectangle "Hotel Booking System" as HBSys{
+    usecase "Register" as reg
+    usecase "Login" as logIn
+    usecase "Logout" as logOut
+    usecase "View\nHotels" as viewHotel
+    usecase "Manage\nHotels" as manageHotel
+    usecase "View\nbookings" as viewBooking
+    usecase "Manage\nbookings" as manageBooking
+}
+user -- reg
+user -- logIn
+user -- logOut
+user -- viewHotel
+user -- viewBooking
+
+reg -- admin
+logIn -- admin
+logOut -- admin
+manageHotel -- admin
+viewHotel -- admin
+viewBooking -- admin
+manageBooking -- admin
+
+
+@enduml
