@@ -1,0 +1,25 @@
+@startuml USER GET ALL
+title USER GET ALL BOOKING
+
+participant Client as A
+participant "<<javaScriot>>\n:server" as B
+participant "<<router>>\n:bookings" as C
+participant "<<controllers>>\n:bookings" as D
+participant "<<model>>\n:Booking" as E
+database "<<MongoDB>>\n:bookings" as F
+
+A -> B ++ : req.post('/bookings')
+B -> C ++ : app.use('/bookings', bookings)
+
+alt if user is registered
+    C -> D ++ : getBookings()
+    D -> E ++ : find({user:req.user.id})
+    E -> F ++ : BookingSchema
+
+    F --> E -- : bookings
+    E --> D -- : bookings
+    D -> A -- : response
+else if user is not registered
+    C -> A -- : response
+end
+@enduml

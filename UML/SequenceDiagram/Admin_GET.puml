@@ -1,0 +1,24 @@
+@startuml ADMIN GET ALL BOOKING
+title ADMIN GET ALL BOOKING
+
+participant Client as A
+participant "<<javaScriot>>\n:server" as B
+participant "<<router>>\n:bookings" as C
+participant "<<controllers>>\n:bookings" as D
+participant "<<model>>\n:Booking" as E
+database "<<MongoDB>>\n:bookings" as F
+    A -> B ++ : req.get('/bookings')
+    B -> C ++ : app.use('/bookings', bookings)
+    C -> D ++ : getBookings()
+
+alt if user is admin
+    D -> E ++ : find()
+    E -> F ++ : BookingSchema
+
+    F --> E -- : bookings
+    E --> D -- : bookings
+    D -> A -- : response
+else if user is not admin
+    C -> A -- : response
+end
+@enduml

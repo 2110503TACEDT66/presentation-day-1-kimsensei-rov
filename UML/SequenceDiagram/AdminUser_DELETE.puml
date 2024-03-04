@@ -1,0 +1,19 @@
+@startuml ADMIN & USER DELETE BOOKING
+title ADMIN & USER DELETE BOOKING
+
+participant Client as A
+participant "<<javaScriot>>\n:server" as B
+participant "<<router>>\n:bookings" as C
+participant "<<controllers>>\n:bookings" as D
+participant "<<model>>\n:Booking" as E
+database "<<MongoDB>>\n:bookings" as F
+
+A -> B ++ : req.delete('/bookings/:id')
+B -> C ++ : app.use('/bookings', bookings)
+C -> D ++ : deleteBooking()
+D -> E ++ : findById(req.params.id)
+E -> F ++ : BookingSchema
+F --> E -- : {}
+E --> D -- : {}
+D -> A -- : response
+@enduml

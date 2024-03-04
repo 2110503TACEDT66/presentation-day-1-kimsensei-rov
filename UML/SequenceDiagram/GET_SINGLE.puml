@@ -1,0 +1,20 @@
+@startuml ADMIN & USER GET SINGLE BOOKING
+title ADMIN & USER GET SINGLE BOOKING
+
+participant Client as A
+participant "<<javaScriot>>\n:server" as B
+participant "<<router>>\n:bookings" as C
+participant "<<controllers>>\n:bookings" as D
+participant "<<model>>\n:Booking" as E
+database "<<MongoDB>>\n:bookings" as F
+
+A -> B ++ : req.get('/bookings/:id')
+B -> C ++ : app.use('/bookings', bookings)
+C -> D ++ : getBooking()
+D -> E ++ : findById(req.params.id)
+E -> F ++ : BookingSchema
+
+F --> E -- : bookings
+E --> D -- : bookings
+D -> A -- : response
+@enduml

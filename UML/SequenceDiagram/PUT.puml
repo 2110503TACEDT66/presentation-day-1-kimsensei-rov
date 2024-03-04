@@ -1,0 +1,21 @@
+@startuml ADMIN & USER PUT BOOKING
+title ADMIN & USER PUT BOOKING
+
+participant Client as A
+participant "<<javaScriot>>\n:server" as B
+participant "<<router>>\n:bookings" as C
+participant "<<controllers>>\n:bookings" as D
+participant "<<model>>\n:Booking" as E
+database "<<MongoDB>>\n:bookings" as F
+
+A -> B ++ : req.put('/bookings/:id')
+B -> C ++ : app.use('/bookings', bookings)
+C -> D ++ : updateBooking()
+D -> E ++ : findByIdAndUpdate(req.params.id,req.body)
+E -> F ++ : BookingSchema
+
+F --> E -- : bookings
+E --> D -- : bookings
+D -> A -- : response
+
+@enduml

@@ -1,0 +1,27 @@
+@startuml ADMIN & USER ADD BOOKING
+title ADMIN & USER ADD BOOKING
+
+participant Client as A
+participant "<<javaScriot>>\n:server" as B
+participant "<<router>>\n:bookings" as C
+participant "<<controllers>>\n:bookings" as D
+participant "<<model>>\n:Booking" as E
+database "<<MongoDB>>\n:bookings" as F
+
+A -> B ++ : req.post('/bookings')
+B -> C ++ : app.use('/bookings', bookings)
+
+alt user bookings > 3 or user is admin
+    C -> D ++ : addBooking()
+    D -> E ++ : create(req.body)
+    E -> F ++ : BookingSchema
+
+    F --> E -- : bookings
+    E --> D -- : bookings
+    D -> A -- : response
+else user bookings <= 3 and user is not admin
+    C -> D ++ : addBooking()
+    D -> A -- : response
+end
+
+@enduml
