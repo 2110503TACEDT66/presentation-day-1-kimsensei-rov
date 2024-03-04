@@ -1,0 +1,88 @@
+@startuml diagram_name
+
+package hotelbooking <<Folder>> {
+    left to right direction
+
+    '---------------------------------------------- HOTEL ----------------------------------------------'
+
+    class "Hotel" as A
+    class "Hotel" as B
+
+    class A << Representation >> {
+        -String name
+        -String address
+        -String telephone
+    }
+
+    class B << Resourse >> {
+        << GET >> +getHotel() : Hotel
+        << PUT >> +updateHotel() : Hotel
+        << DELETE >> +deleteHotel() : void
+    }
+
+    class Hotels << Resourse >> {
+        << GET >> +getHotels() : Hotel
+        << POST >> +createHotel() : Hotel
+    }
+
+    '---------------------------------------------- BOOKING ----------------------------------------------'
+
+    class "Booking" as A1
+    class "Booking" as B1
+
+    class A1 << Representation >> {
+        -Date bookingDate
+        -mongoose.Schema.ObjectId user
+        -mongoose.Schema.ObjectId hotel
+        -Date createAt
+    }
+
+    class B1 << Resourse >> {
+        << GET >> +getBooking() : Booking
+        << PUT >> +updateBooking() : Booking
+        << DELETE >> +deleteBooking() : void
+    }
+
+    class Bookings << Resourse >> {
+        << GET >> +getBookings() : Booking
+        << POST >> +addBooking() : Booking
+    }
+
+    '---------------------------------------------- USER ----------------------------------------------'
+
+    class "User" as A2
+
+    class A2 << Representation >> {
+        -String name
+        -String telephone
+        -String email
+        -String role
+        -String password
+    }
+
+    class Auth << Resourse >> {
+        << GET >> +getMe() : token
+        << GET >> +logout() : void
+        << POST >> +login() : User
+        << POST >> +register() : User
+    }
+
+    class hotelbooking << Application >>
+
+    hotelbooking ..> Hotels : /hotels \n << Path >>
+    Hotels ..> B : /{hotelId} \n << Path >>
+    B ..> A : << use >>
+
+    hotelbooking ..> Bookings : /bookings \n << Path >>
+    Bookings ..> B1 : /{bookingId} \n << Path >>
+    B1 ..> A1 : << use >>
+
+    hotelbooking ..> Auth : /register \n << Path >>
+    hotelbooking ..> Auth : /login \n << Path >>
+    hotelbooking ..> Auth : /me \n << Path >>
+    hotelbooking ..> Auth : /logout \n << Path >>
+    Auth ..> A2 : << use >>
+
+}
+
+@enduml
