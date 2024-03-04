@@ -11,7 +11,7 @@ database "<<MongoDB>>\n:bookings" as F
 A -> B ++ : req.post('/bookings')
 B -> C ++ : app.use('/bookings', bookings)
 
-alt user bookings <= 3 or user is admin
+alt user bookings < 3 or user is admin
     C -> D ++ : addBooking()
     D -> E ++ : create(req.body)
     E -> F ++ : BookingSchema
@@ -19,7 +19,7 @@ alt user bookings <= 3 or user is admin
     F --> E -- : bookings
     E --> D -- : bookings
     D -> A -- : response
-else user bookings > 3 and user is not admin
+else user bookings >= 3 and user is not admin
     C -> D ++ : addBooking()
     D -> A -- : response
 end
