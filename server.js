@@ -28,7 +28,23 @@ app.use('/api/v1/bookings',bookings);
 
 const PORT=process.env.PORT || 5000;
 
-const server = app.listen(PORT, console.log('Server running in ', process.env.NODE_ENV, ' mode on port ', PORT));
+const server = app.listen(
+    PORT,
+    console.log('Server running in ',
+    process.env.NODE_ENV,
+    "on " + process.env.HOST + ":" + PORT));
+
+    const swaggerOptions={
+        swaggerDefinition:{ 
+            openapi: '3.0.0', 
+            info: { 
+                title: 'Library API', 
+                version: '1.0.0', 
+                description: 'Hotel Booking API' 
+            }, 
+            servers: [ { 
+                url: process.env.HOST+ ":" + PORT + "/api/v1" } ], 
+        }, apis:['./routes/*.js'], };    
 
 //Handle unhandled promise rejections
 process.on('unhandledRejection',(err,promise)=>{
